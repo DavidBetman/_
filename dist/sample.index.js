@@ -782,8 +782,11 @@
                     });
             }),
                 (window.Init = function () {
+                    function isIOS() {
+                        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+                    }
                     document.getElementById("activationCode").addEventListener("keypress", function (e) {
-                        13 == e.keyCode && e.shiftKey && e.altKey && Auth();
+                        13 == e.keyCode && (isIOS() || (e.shiftKey && e.altKey)) && Auth();
                     });
                 });
         },
