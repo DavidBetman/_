@@ -289,7 +289,15 @@ var isFocused = true;
                     (window.onfocus = () => {
                         console.log("focus");
                         isFocused = true;
+
                         s(!0);
+                        
+                        try {
+                            G.getInstance().main.channel.markAsRead();
+                        } catch {
+
+                        }
+
                     }),
                         (window.onblur = () => {
                             console.log("blur");
@@ -664,7 +672,7 @@ var isFocused = true;
                     const e = new P();
                     (e.onMessageReceived = (e, t) => {
 
-                        
+
                         if (isFocused) {
                             this.channel.markAsRead();
                             console.log("receive message focus", isFocused, e);
