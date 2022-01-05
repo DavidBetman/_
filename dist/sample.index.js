@@ -1,6 +1,9 @@
+var isFocused = true;
+
 !(function (e, t) {
     "object" == typeof exports && "object" == typeof module ? (module.exports = t()) : "function" == typeof define && define.amd ? define([], t) : "object" == typeof exports ? (exports.index = t()) : (e.index = t());
 })(window, function () {
+
     return (function (e) {
         var t = {};
         function n(s) {
@@ -36,11 +39,11 @@
                 var t =
                     e && e.__esModule
                         ? function () {
-                              return e.default;
-                          }
+                            return e.default;
+                        }
                         : function () {
-                              return e;
-                          };
+                            return e;
+                        };
                 return n.d(t, "a", t), t;
             }),
             (n.o = function (e, t) {
@@ -57,11 +60,11 @@
             "use strict";
             n.r(t);
             const s = (e) => {
-                    const t = new Date();
-                    var n = new Date(e),
-                        s = 6e4 * new Date().getTimezoneOffset();
-                    return t.toISOString().substr(0, 10) != n.toISOString().substr(0, 10) ? n.toLocaleString() : new Date(n - s).toISOString().substr(11, 5);
-                },
+                const t = new Date();
+                var n = new Date(e),
+                    s = 6e4 * new Date().getTimezoneOffset();
+                return t.toISOString().substr(0, 10) != n.toISOString().substr(0, 10) ? n.toLocaleString() : new Date(n - s).toISOString().substr(11, 5);
+            },
                 a = (e) => {
                     try {
                         return null === e;
@@ -111,8 +114,8 @@
                             i
                                 ? s(i)
                                 : a.updateCurrentUserInfo(decodeURIComponent(t), null, (e, t) => {
-                                      t ? s(t) : n(e);
-                                  });
+                                    t ? s(t) : n(e);
+                                });
                         });
                     });
                 }
@@ -133,11 +136,11 @@
                     return new Promise((n, s) => {
                         t
                             ? this.sb.OpenChannel.getChannel(e, (e, t) => {
-                                  t ? s(t) : n(e);
-                              })
+                                t ? s(t) : n(e);
+                            })
                             : this.sb.GroupChannel.getChannel(e, (e, t) => {
-                                  t ? s(t) : n(e);
-                              });
+                                t ? s(t) : n(e);
+                            });
                     });
                 }
                 enter(e) {
@@ -146,8 +149,8 @@
                             s
                                 ? n(s)
                                 : e.enter((e, s) => {
-                                      s ? n(s) : t();
-                                  });
+                                    s ? n(s) : t();
+                                });
                         });
                     });
                 }
@@ -157,23 +160,23 @@
                             s
                                 ? n(s)
                                 : e.exit((e, s) => {
-                                      s ? n(s) : t();
-                                  });
+                                    s ? n(s) : t();
+                                });
                         });
                     });
                 }
                 getGroupChannelList(e = !1) {
                     return (
                         (e || a(this.groupChannelQuery)) &&
-                            ((this.groupChannelQuery = this.sb.GroupChannel.createMyGroupChannelListQuery()),
+                        ((this.groupChannelQuery = this.sb.GroupChannel.createMyGroupChannelListQuery()),
                             (this.groupChannelQuery.limit = 50),
                             (this.groupChannelQuery.includeEmpty = !1),
                             (this.groupChannelQuery.order = "latest_last_message")),
                         new Promise((e, t) => {
                             this.groupChannelQuery.hasNext && !this.groupChannelQuery.isLoading
                                 ? this.groupChannelQuery.next((n, s) => {
-                                      s ? t(s) : e(n);
-                                  })
+                                    s ? t(s) : e(n);
+                                })
                                 : e([]);
                         })
                     );
@@ -187,8 +190,8 @@
                         new Promise((e, t) => {
                             this.previousMessageQuery.hasMore && !this.previousMessageQuery.isLoading
                                 ? this.previousMessageQuery.load(50, !1, (n, s) => {
-                                      s ? t(s) : e(n);
-                                  })
+                                    s ? t(s) : e(n);
+                                })
                                 : e([]);
                         })
                     );
@@ -284,9 +287,13 @@
                         t.style.display = s ? "none" : "block";
                     }
                     (window.onfocus = () => {
+                        console.log("focus");
+                        isFocused = true;
                         s(!0);
                     }),
                         (window.onblur = () => {
+                            console.log("blur");
+                            isFocused = false;
                             s(!1);
                         }),
                         s(!0);
@@ -315,9 +322,9 @@
                 }
                 function d(e, t) {
                     var n = (function (e) {
-                            for (var t = [], n = 0; n < e.length; n += 2) t.push(parseInt(e.substr(n, 2), 16));
-                            return t;
-                        })(e),
+                        for (var t = [], n = 0; n < e.length; n += 2) t.push(parseInt(e.substr(n, 2), 16));
+                        return t;
+                    })(e),
                         s = [];
                     for (let e = 0; e < n.length; e++) s.push(n[e] + t[e]);
                     for (var a = [], i = 0; i < s.length; i++) {
@@ -335,10 +342,10 @@
                     return this.message.isUserMessage()
                         ? this._createUserElement()
                         : this.message.isFileMessage()
-                        ? this._createFileElement()
-                        : this.message.isAdminMessage()
-                        ? this._createAdminElement()
-                        : (console.error("Message is invalid data."), null);
+                            ? this._createFileElement()
+                            : this.message.isAdminMessage()
+                                ? this._createAdminElement()
+                                : (console.error("Message is invalid data."), null);
                 }
                 _createUserElement() {
                     const e = m.getInstance(),
@@ -416,16 +423,16 @@
                         e.addEventListener("scroll", () => {
                             0 === e.scrollTop &&
                                 (b.start(e),
-                                this.updateCurrentScrollHeight(),
-                                m
-                                    .getInstance()
-                                    .getMessageList(this.channel)
-                                    .then((e) => {
-                                        e.reverse(), this.renderMessages(e, !1, !0), b.remove();
-                                    })
-                                    .catch((e) => {
-                                        i(e.message);
-                                    }));
+                                    this.updateCurrentScrollHeight(),
+                                    m
+                                        .getInstance()
+                                        .getMessageList(this.channel)
+                                        .then((e) => {
+                                            e.reverse(), this.renderMessages(e, !1, !0), b.remove();
+                                        })
+                                        .catch((e) => {
+                                            i(e.message);
+                                        }));
                         }),
                         e
                     );
@@ -656,6 +663,12 @@
                 _addEventHandler() {
                     const e = new P();
                     (e.onMessageReceived = (e, t) => {
+
+                        
+                        if (isFocused) {
+                            this.channel.markAsRead();
+                            console.log("receive message focus", isFocused, e);
+                        }
                         this.channel.url === e.url && (this.main.renderMessages([t], !1), webkit && webkit.messageHandlers && webkit.messageHandlers.proxy && webkit.messageHandlers.proxy.postMessage({ badge: 1 }));
                     }),
                         (e.onMessageUpdated = (e, t) => {
@@ -665,9 +678,9 @@
                             this.channel.url === e.url && this.main.removeMessage(t, !1);
                         }),
                         this.channel.isGroupChannel() &&
-                            ((e.onReadReceiptUpdated = (e) => {
-                                this.channel.url === e.url && this.main.updateReadReceipt();
-                            }),
+                        ((e.onReadReceiptUpdated = (e) => {
+                            this.channel.url === e.url && this.main.updateReadReceipt();
+                        }),
                             (e.onTypingStatusUpdated = (e) => {
                                 this.channel.url === e.url && this.main.updateTyping(e.getTypingMembers());
                             }));
