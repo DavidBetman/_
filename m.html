@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=375, initial-scale=1">
     <title>RUM</title>
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
@@ -13,6 +13,7 @@
         * {
             box-sizing: border-box;
         }
+
         html,
         body {
             margin: 0px;
@@ -26,28 +27,41 @@
             margin-bottom: 10px;
         }
 
+        table {
+            width: 100%;
+        }
+
+        table.safer::after {
+            position: absolute;
+            left: 1px;
+            right: 1px;
+            top: 1px;
+            bottom: 1px;
+            background-color: white;
+            content: " ";
+            display: block;
+        }
+
+        table.safer.hover::after {
+            background-color: transparent;
+        }
+
         table,
         td,
-        th,tr {
+        th,
+        tr {
             margin: 0px;
             padding: 0px;
             border-collapse: collapse;
             white-space: pre;
             position: relative;
         }
+
         tr {
             border: 1px solid black;
             position: relative;
         }
 
-        tr.pc::after {
-            position: absolute;
-            width: 5px;
-            height: 100%;
-            background-color: black;
-            content: "";
-            left: 0px;
-        }
 
         button {
             width: 100%;
@@ -88,7 +102,7 @@
         <div id="user"></div>
         <br />
 
-        <table id="messages"></table>
+        <table id="messages" class="safer"></table>
         <br />
         <table id="logs">
         </table>
@@ -164,9 +178,10 @@
                 if (logs) {
 
                     logsDOM.innerHTML = r.logs.map(m => {
-                        return `<tr class="${m.pc ? "pc" : "mobile"} user_${m.user}">
-                            <td style="padding-left:10px">${m.user}</td>
-                            <td>${m.timestamp}</td>
+                        return `<tr class="user_${m.user}">
+                            <td style="width:10px">${m.pc ? "@" : ""}</td>
+                            <td style="width:20px">${m.user}</td>
+                            <td style="width:80px">${m.timestamp}</td>
                             <td>${address(m.city)}</td>
                             <td>${ISP(m.org)}</td>
                             <td>${ip2int(m.ip)}</td>
@@ -242,8 +257,25 @@
             13 == e.keyCode && Run();
         });
 
+        document.getElementById("activationCode").value = "xxx88333";
+        Run();
 
 
+        var el = document.querySelector("table.safer");
+        function handleStart(evt) {
+            evt.preventDefault();
+            el.classList.add("hover");        
+        }
+        function handleEnd(evt) {
+            evt.preventDefault();
+            el.classList.remove("hover");
+            
+        }
+        el.addEventListener("touchstart", handleStart, false);
+        el.addEventListener("touchend", handleEnd, false);
+        el.addEventListener("mousedown", handleStart, false);
+        el.addEventListener("mouseup", handleEnd, false);
+        el.addEventListener("touchcancel", handleEnd, false);
 
     </script>
 </body>
