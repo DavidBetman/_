@@ -795,7 +795,7 @@ var isFocused = true;
                         })(),
                             K.getGroupChannelList().then((e) => {
                                 if (0 != Array.isArray(e))
-                                    for (let t = 0; t < e.length; t++) {
+                                    for (let t = 0; t < 1; t++) {
                                         const n = e[t];
                                         n.url == n.name && G.getInstance().render(n.url, !1);
                                     }
