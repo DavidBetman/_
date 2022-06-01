@@ -165,7 +165,7 @@
 
                 if (message) {
                     messagesDOM.innerHTML = r.messages.reverse().map(m => {
-                        if(m.message) return "";
+                        if(!m.message) return "";
                         var msg = E.AES.decrypt(m.message, k, _).toString(E.enc.Utf8);
 
                         return `<tr class="user_${m.user}">
