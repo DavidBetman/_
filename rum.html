@@ -4,7 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=375, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, ">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <title>RUM</title>
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
@@ -84,6 +86,32 @@
         .user_Y {
             background-color: #CCCCCC;
         }
+
+        ul#images {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        #images li {
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+        }
+
+        #images img {
+            width: 100%;
+        }
+
+        #images span {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -92,8 +120,8 @@
     <div id="auth">
         <div style="position: absolute; left: 0px; right: 0px; top: 0px; bottom:0px; z-index: 10000;overflow: hidden;">
             <input id="activationCode"
-                style="margin: 0px;padding: 0px;border: 0px;color: white;background-color: white;" type="password"
-                value="" autocomplete="off">
+                style="margin: 0px;padding: 0px;border: 0px;color: #EEEEEE;background-color: #EEEEEE;width: 100%;"
+                type="password" value="" autocomplete="off">
         </div>
     </div>
     <div id="contents" style="display: none;">
@@ -106,6 +134,15 @@
         <br />
         <table id="logs">
         </table>
+
+        <br />
+
+        <ul id="images">
+        </ul>
+
+        <button onclick="LoadImages()">Load</button>
+
+
 
     </div>
 
@@ -140,6 +177,42 @@
             return isp;
         }
 
+        function LoadImages() {
+
+            var url = atob('aHR0cHM6Ly9hc3NldC1nZXQtcHJpdmF0ZS1kZGp3a3RjeGJ3LmFwLW5vcnRoZWFzdC0xLmZjYXBwLnJ1bg==') + `?auth=${APP_ID}`;
+            fetch(url, { method: "POST" }).then(r => r.json()).then(r => {
+                console.log(r);
+            })
+
+        }
+
+        var imageNextToken = "";
+        var images = document.getElementById("images");
+        function LoadImages() {
+
+            let imageUrl = atob('aHR0cHM6Ly9hc3NldC1nZXQtcHJpdmF0ZS1kZGp3a3RjeGJ3LmFwLW5vcnRoZWFzdC0xLmZjYXBwLnJ1bg==') + `?auth=${APP_ID}`;
+            var url = `${imageUrl}&nextToken=${imageNextToken}`;
+
+            fetch(url, { method: "POST" }).then(r => r.json()).then(r => {
+
+                if (!r || !r.isSuccess) return;
+
+                imageNextToken = r.nextToken;
+                r.items.forEach(item => {
+
+                    var li = document.createElement("li");
+                    li.innerHTML = `
+                        <img src="${imageUrl}&id=${item.id}"/>
+                        <span>${new Date(item.created * 1000).toLocaleString()}</span>                        
+                        `;
+                    images.appendChild(li);
+
+                });
+
+            })
+
+        }
+
         function Execute(user, message, logs) {
 
 
@@ -167,7 +240,7 @@
                     messagesDOM.innerHTML = r.messages.reverse().map(m => {
                         var msg = m.message ? E.AES.decrypt(m.message, k, _).toString(E.enc.Utf8) : "#####IMAGE";
                         var style = m.isRemoved ? "text-decoration:line-through" : "";
-                        
+
                         return `<tr class="user_${m.user}" style="${style}">
                             <td>${m.user}</td>
                             <td>${m.timestamp}</td>
@@ -258,24 +331,25 @@
             13 == e.keyCode && Run();
         });
 
-      
+
 
 
         var el = document.querySelector("table.safer");
         function handleStart(evt) {
             evt.preventDefault();
-            el.classList.add("hover");        
+            el.classList.add("hover");
         }
         function handleEnd(evt) {
             evt.preventDefault();
             el.classList.remove("hover");
-            
+
         }
         el.addEventListener("touchstart", handleStart, false);
         el.addEventListener("touchend", handleEnd, false);
         el.addEventListener("mousedown", handleStart, false);
         el.addEventListener("mouseup", handleEnd, false);
         el.addEventListener("touchcancel", handleEnd, false);
+
 
     </script>
 </body>
