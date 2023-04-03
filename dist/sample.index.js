@@ -779,7 +779,7 @@ var isFocused = true;
             b.start(w);
             (window.connectSB = function (e, t) {
                 (K = new m(e))
-                    .connect(t, "SendBird")
+                    .connect(t, "__")
                     .then(() => {
                         (() => {
                             const e = new j();
